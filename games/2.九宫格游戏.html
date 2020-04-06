@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九宫格游戏</title>
+    <link rel="stylesheet" href="./css/game.css">
+</head>
+
+<body>
+    <div class="stage">
+        <span class="btn start">开始</span>
+        <div class="box">
+        </div>
+    </div>
+    <script src="./js/game.js"></script>
+    <script>
+        window.onload = function () {
+            var max = 3;
+            new game(max, '.stage');
+        }
+    </script>
+</body>
+
+</html>

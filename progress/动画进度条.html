@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画进度条</title>
+    <script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+</head>
+    <style>
+        body{
+            background-color: #0d0d0d;
+        }
+
+        div.main{
+            width: 300px;
+            margin: 300px auto 0;
+            text-align: center;
+        }
+
+        div.main>h1{
+            font-weight: lighter;
+            font-size: 40px;
+            color: #f60d54;
+            margin: 0;
+        }
+
+        div.main>p{
+            color: #fff;
+            font-size: 50px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        div.main>div.progress{
+            border-radius: 4px;
+            height: 2px;
+        }
+
+        div.main>div.progress>div.layer{
+            height: 2px;
+            border-radius: 4px;
+            background-color: #f60d54;
+        }
+    </style>
+<body>
+    <div class="main">
+        <h1>loading</h1>
+        <p>0%</p>
+        <div class="progress">
+            <div class="layer"></div>
+        </div>
+    </div>
+
+    <script>
+        $(function(){
+            var init = 0;
+            var max = 100;
+            
+            var timer = setInterval(function(){
+                if (init >= max) {
+                    clearInterval(timer);
+                    return;
+                }
+                init += 0.2;
+                $('div.main>p').text(parseInt(init) + '%');
+                $('div.main>div.progress>div.layer').css('width',init + '%');
+            });
+        })
+    </script>
+
+</body>
+</html>

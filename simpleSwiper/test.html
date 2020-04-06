@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+        <link rel="stylesheet" href="./css/basic.css">
+        <script src="./js/banner.js"></script>
+        <style>
+            .banner {
+                width: 300px;
+                height: 200px;
+            }
+            .news {
+                width: 500px;
+                height: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="swiper-container banner">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="./img/banner1.jpg" alt="" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="./img/banner2.jpg" alt="" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="./img/banner3.jpg" alt="" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="./img/banner4.jpg" alt="" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="./img/banner5.jpg" alt="" />
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <div class="swiper-container news">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="./img/banner1.jpg" alt="" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="./img/banner2.jpg" alt="" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="./img/banner3.jpg" alt="" />
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <script>
+            var s1 = new SimpleSwiper('.banner',{autoPlay:true});
+            var s2 = new SimpleSwiper('.news')
+        </script>
+    </body>
+</html>

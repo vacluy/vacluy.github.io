@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>放大镜插件</title>
+    <link rel="stylesheet" href="./css/basic.css">
+    <script src="./js/Magnifiter.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container magnifiter_l">
+        <select class="level" name="" id="">
+            <option value="2" selected>2倍</option>
+            <option value="3">3倍</option>
+            <option value="4">4倍</option>
+            <option value="5">5倍</option>
+            <option value="6">6倍</option>
+        </select>
+
+        <div id="box" class="box">
+            <img class="auto-img" src="./img/banner1.jpg" data-src="./img/banner1.jpg" alt="">
+            <div class="mask"></div>
+            <div id="layer" class="layer"></div>
+        </div>
+
+        <div class="thumbnail">
+            <div class="active" data-src="./img/banner1.jpg">
+                <img class="auto-img" src="./img/banner1.jpg" alt="">
+            </div>
+            <div data-src="./img/banner2.jpg">
+                <img class="auto-img" src="./img/banner2.jpg" alt="">
+            </div>
+            <div data-src="./img/banner3.jpg">
+                <img class="auto-img" src="./img/banner3.jpg" alt="">
+            </div>
+            <div data-src="./img/banner4.jpg">
+                <img class="auto-img" src="./img/banner4.jpg" alt="">
+            </div>
+            <div data-src="./img/banner5.jpg">
+                <img class="auto-img" src="./img/banner5.jpg" alt="">
+            </div>
+        </div>
+
+        <div class="large"></div>
+    </div>
+
+    <div class="container news">
+        <select class="level" name="" id="">
+            <option value="2" selected>2倍</option>
+            <option value="3">3倍</option>
+            <option value="4">4倍</option>
+            <option value="5">5倍</option>
+            <option value="6">6倍</option>
+        </select>
+
+        <div id="box" class="box">
+            <img class="auto-img" src="./img/banner1.jpg" data-src="./img/banner1.jpg" alt="">
+            <div class="mask"></div>
+            <div id="layer" class="layer"></div>
+        </div>
+
+        <div class="thumbnail">
+            <div class="active" data-src="./img/banner1.jpg">
+                <img class="auto-img" src="./img/banner1.jpg" alt="">
+            </div>
+            <div data-src="./img/banner2.jpg">
+                <img class="auto-img" src="./img/banner2.jpg" alt="">
+            </div>
+            <div data-src="./img/banner3.jpg">
+                <img class="auto-img" src="./img/banner3.jpg" alt="">
+            </div>
+        </div>
+
+        <div class="large"></div>
+    </div>
+
+    <script>
+        var m1 = new Magnifiter('.magnifiter_l');
+        var m2 = new Magnifiter('.news', {level:true});
+    </script>
+</body>
+</html>

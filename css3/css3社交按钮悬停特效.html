@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css3社交按钮悬停特效</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        html{
+            height: 100%;
+        }
+
+        body{
+            display: flex;
+            height: 100%;
+            margin: 0;
+            background-color: #ddd;
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+        .stage{
+            display: flex;
+            align-items: center;
+            width: 600px;
+            height: 100px;
+            margin: auto;
+        }
+        
+        .btn{
+            width: 90px;
+            height: 90px;
+            margin: 0 10px;
+            line-height: 90px;
+            text-align: center;
+            background-color: white;
+            border-radius: 25%;
+            font-size: 30px;
+            overflow: hidden;
+            position: relative;
+            z-index: 0;
+        }
+
+        .btn-facebook::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #3D5A99;
+            transform: rotateZ(45deg) scale(1.2) translate(0, 100px);
+            transition: all .4s cubic-bezier(0.32, 0.09, 0.57, 1.43);
+            z-index: -1;
+        }
+
+        .btn-facebook>i{
+            transition: inherit;
+            color: #3D5A99;
+        }
+
+        .btn-facebook:hover>i{
+            transform: scale(1.2);
+            color: white;
+        }
+
+        .btn-facebook:hover::before{
+            transform: rotateZ(45deg) scale(1.2) translate(0, 0);
+        }
+
+        .btn-twitter::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #03AFF0;
+            transform: rotateZ(45deg) scale(1.2) translate(0, 100px);
+            transition: all .4s cubic-bezier(0.32, 0.09, 0.57, 1.43);
+            z-index: -1;
+        }
+
+        .btn-twitter>i{
+            transition: inherit;
+            color: #03AFF0;
+        }
+
+        .btn-twitter:hover>i{
+            transform: scale(1.2);
+            color: white;
+        }
+
+        .btn-twitter:hover::before{
+            transform: rotateZ(45deg) scale(1.2) translate(0, 0);
+        }
+
+        .btn-google::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #DC4C3A;
+            transform: rotateZ(45deg) scale(1.2) translate(0, 100px);
+            transition: all .4s cubic-bezier(0.32, 0.09, 0.57, 1.43);
+            z-index: -1;
+        }
+
+        .btn-google>i{
+            transition: inherit;
+            color: #DC4C3A;
+        }
+
+        .btn-google:hover>i{
+            transform: scale(1.2);
+            color: white;
+        }
+
+        .btn-google:hover::before{
+            transform: rotateZ(45deg) scale(1.2) translate(0, 0);
+        }
+
+        .btn-instagram::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #BF03FF;
+            transform: rotateZ(45deg) scale(1.2) translate(0, 100px);
+            transition: all .4s cubic-bezier(0.32, 0.09, 0.57, 1.43);
+            z-index: -1;
+        }
+
+        .btn-instagram>i{
+            transition: inherit;
+            color: #BF03FF;
+        }
+
+        .btn-instagram:hover>i{
+            transform: scale(1.2);
+            color: white;
+        }
+
+        .btn-instagram:hover::before{
+            transform: rotateZ(45deg) scale(1.2) translate(0, 0);
+        }
+
+        .btn-pinterest::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #CC0202;
+            transform: rotateZ(45deg) scale(1.2) translate(0, 100px);
+            transition: all .4s cubic-bezier(0.32, 0.09, 0.57, 1.43);
+            z-index: -1;
+        }
+
+        .btn-pinterest>i{
+            transition: inherit;
+            color: #CC0202;
+        }
+
+        .btn-pinterest:hover>i{
+            transform: scale(1.2);
+            color: white;
+        }
+
+        .btn-pinterest:hover::before{
+            transform: rotateZ(45deg) scale(1.2) translate(0, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="stage">
+        <a class="btn btn-facebook" href="#">
+            <i class="fa fa-facebook"></i>
+        </a>
+        <a class="btn btn-twitter" href="#">
+            <i class="fa fa-twitter"></i>
+        </a>
+        <a class="btn btn-google" href="#">
+            <i class="fa fa-google"></i>
+        </a>
+        <a class="btn btn-instagram" href="#">
+            <i class="fa fa-instagram"></i>
+        </a>
+        <a class="btn btn-pinterest" href="#">
+            <i class="fa fa-pinterest"></i>
+        </a>
+    </div>
+</body>
+</html>

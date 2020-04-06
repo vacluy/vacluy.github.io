@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>音乐播放器</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./playlist.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            /* width: 100%; */
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            letter-spacing: 1px;
+            background-color: rgba(0, 0, 0, .8);
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        input[type="range"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 9999;
+            cursor: pointer;
+        }
+
+        h3 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        h5 {
+            margin: 15px 0;
+            font-weight: 500;
+        }
+
+        .stage {
+            width: 600px;
+        }
+
+        .card {
+            display: flex;
+            margin-bottom: 40px;
+            padding: 25px;
+            /* background: lightcoral; */
+            overflow: hidden;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 0 20px 5px rgba(0, 0, 0, .9);
+        }
+
+        .card .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("http://p1.music.126.net/-EV4XhJEJn_Ib7ebS1OHhg==/109951164820593469.jpg");
+
+            background-size: cover;
+            background-position: center;
+            filter: blur(20px) brightness(0.6);
+            transform: scale(1.2);
+
+            z-index: -1;
+        }
+
+        .card .glue {
+            width: 130px;
+            height: 130px;
+            background: url("https://www.17sucai.com/preview/1160620/2018-10-11/Music-player/images/cd.png");
+            background-size: 100%;
+            padding: 25px;
+            box-sizing: border-box;
+            animation: myrotate 6s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .card .glue img {
+            width: 100%;
+            border-radius: 50%;
+        }
+
+        .card .finger {
+            width: 25px;
+            margin-right: 16px;
+            background: url("https://www.17sucai.com/preview/1160620/2018-10-11/Music-player/images/cd_tou.png") no-repeat;
+            background-size: 100%;
+            margin-left: -10px;
+            transform-origin: 15px 10px;
+            transform: rotate(-15deg);
+            transition: all 0.3s;
+        }
+
+        .stage.playing .card .finger {
+            transform: rotate(5deg);
+        }
+
+        .stage.playing .card .glue {
+            animation-play-state: running;
+        }
+
+        .card .right {
+            flex: 1;
+            margin-left: 15px;
+            color: white;
+        }
+
+        .right h5 {
+            color: #ccc;
+        }
+
+        .right .time {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .right .time span {
+            background-color: rgba(0, 0, 0, .4);
+        }
+
+        .control {
+            cursor: pointer;
+        }
+
+        .control .btns span {
+            color: #fff;
+            margin-right: 8px;
+        }
+
+        .control {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+        }
+
+        .control .voice {
+            display: flex;
+            width: 160px;
+        }
+
+        .voice .volume {
+            display: inline-block;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .sound-progress {
+            width: 100%;
+            height: 8px;
+            margin-top: 6px;
+            background-color: rgba(0, 0, 0, .4);
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .sound-progress .progress-active {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background-color: #0CB6D4;
+            border-radius: 2px;
+        }
+
+        .sound-progress span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: inline-block;
+            vertical-align: middle;
+            width: 6%;
+            height: 100%;
+            border-radius: 1px;
+            background-color: lightcoral;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+        }
+
+        .sound-progress:hover span {
+            opacity: 1;
+        }
+
+        @keyframes myrotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .progress {
+            width: 100%;
+            height: 8px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, .4);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .progress .progress-active {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background-color: #0CB6D4;
+            border-radius: 4px;
+        }
+
+        .progress span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: inline-block;
+            vertical-align: middle;
+            width: 2%;
+            height: 100%;
+            border-radius: 1px;
+            background-color: lightcoral;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+        }
+
+        .progress:hover span {
+            opacity: 1;
+        }
+
+        ul.list {
+            padding: 10px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, .8);
+            border-radius: 8px;
+        }
+
+        .list li {
+            height: 30px;
+            line-height: 30px;
+            padding-left: 10px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        ul li.playing {
+            background: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stage">
+        <audio autoplay src=""></audio>
+        <div class="card">
+            <div class="mask"></div>
+            <div class="glue">
+                <img src="http://p1.music.126.net/-EV4XhJEJn_Ib7ebS1OHhg==/109951164820593469.jpg" alt="" />
+            </div>
+            <div class="finger"></div>
+            <div class="right">
+                <h3>降临 (Live)</h3>
+                <h5>(Live)</h5>
+                <div class="control">
+                    <div class="btns fa">
+                        <span class="fa-backward prev"></span>
+                        <span class="fa-play play"></span>
+                        <span class="fa-forward next"></span>
+                        <span class="fa-retweet pattern"></span>
+                    </div>
+                    <div class="voice fa">
+                        <span class="fa-volume-up volume"></span>
+                        <div class="sound-progress">
+                            <input type="range" value="0" min="0" max="100">
+                            <div class="progress-active"></div>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress">
+                    <input type="range" value="0" min="0" step="0.01" max="100" />
+                    <div class="progress-active"></div>
+                    <span></span>
+                </div>
+                <div class="time">
+                    <span>00:00</span>
+                    <span>00:00</span>
+                </div>
+            </div>
+        </div>
+        <ul class="list"></ul>
+    </div>
+
+    <!-- <audio src="" controls></audio> -->
+    <!-- <script>
+            playlist.forEach(function(element, index) {
+                // console.log(element.id);
+                var node = document.createElement("audio");
+                node.controls = "controls";
+                node.src = "https://music.163.com/song/media/outer/url?id=" + element.id + ".mp3";
+                document.body.appendChild(node);
+            });
+        </script> -->
+
+    <!-- https://music.163.com/song/media/outer/url?id=id.mp3 -->
+    <!-- http://music.kele8.cn/ -->
+
+    <script>
+        window.onload = function () {
+            var list = document.querySelector("ul.list");
+            var audio = document.querySelector("audio");
+            var play = document.querySelector(".play");
+            var prev = document.querySelector(".prev");
+            var next = document.querySelector(".next");
+            var pattern = document.querySelector(".pattern");
+            var volumeIcon = document.querySelector('.volume');
+            var stage = document.querySelector(".stage");
+            var h3 = document.querySelector("h3");
+            var h5 = document.querySelector("h5");
+            var progress = document.querySelector(".progress input");
+            var soundProgress = document.querySelector('.sound-progress');
+            var current = 0;
+
+            // 获取关闭音量前音量条的值
+            var tem_width, tem_left, tem_val, tem_volume;
+
+            // 初始化
+            // list歌曲列表展示
+            playlist.forEach(function (element, index) {
+                // console.log(element.id);
+                var node = document.createElement("li");
+                node.innerText = element.name;
+                list.appendChild(node);
+            });
+
+            // 根据歌曲id 返回歌曲 url
+            function countUrl(id) {
+                return "https://music.163.com/song/media/outer/url?id=" + id + ".mp3";
+            }
+
+            // 初始化第一首歌
+            // audio.src = countUrl(playlist[0].id);
+            // h3.innerText = playlist[0].name;
+            // h5.innerText = playlist[0].artist;
+            changeSong(playlist[current]);
+
+            // 初始化音量进度条
+            soundProgress.querySelector('input').value = audio.volume * 100;
+            soundProgress.querySelector('.progress-active').style.width = audio.volume * 100 + '%';
+            soundProgress.querySelector('span').style.left = (audio.volume - 0.01) * 100 + '%';
+            // 控制
+            play.onclick = function () {
+                // 判断播放状态
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            };
+
+            // 监听播放状态
+            audio.onplay = function () {
+                // 更改stage 的播放状态 添加class
+                stage.classList.add("playing");
+                // 切换按钮
+                play.classList.add('fa-pause');
+                play.classList.remove('fa-play')
+            };
+            audio.onpause = function () {
+                // 更改stage 的播放状态
+                stage.classList.remove("playing");
+                // 切换按钮
+                play.classList.remove('fa-pause');
+                play.classList.add('fa-play')
+            };
+
+            audio.ontimeupdate = function () {
+                // console.log(this.currentTime, this.duration);
+                if (isNaN(this.duration)) {
+                    return;
+                }
+                // 更新进度条
+                progress.value = (this.currentTime / this.duration) * 100;
+                document.querySelector('.progress .progress-active').style.width = (this.currentTime / this.duration) * 100 + '%';
+                document.querySelector('.progress span').style.left = (this.currentTime / this.duration) * 100 - 1 + '%';
+                // console.log(progress.value);
+
+                // 更新时间
+                document.querySelectorAll(".time span")[0].innerText = countTime(this.currentTime);
+            };
+
+            progress.onchange = function () {
+                // console.log(this.value);
+                audio.currentTime = (this.value * audio.duration) / 100;
+
+                var parentActive = this.parentNode.querySelector('.progress-active');
+                var mask = this.parentNode.querySelector('span');
+
+                //更新进度条
+                parentActive.style.width = this.value + '%';
+                mask.style.left = this.value - 1 + '%';
+            };
+
+            function countTime(n) {
+                var n = Math.floor(n);
+                var m = Math.floor(n / 60);
+                var s = n % 60;
+                m = m > 9 ? m : "0" + m;
+                s = s > 9 ? s : "0" + s;
+                return m + ":" + s;
+            }
+
+            audio.ondurationchange = function () {
+                document.querySelectorAll(".time span")[1].innerText = countTime(this.duration);
+            };
+
+            // 切换歌曲
+            function changeSong(obj) {
+                // 切换url
+
+                audio.src = countUrl(obj.id);
+                h3.innerText = obj.name;
+                h5.innerText = obj.artists;
+
+                document.querySelector(".glue img").src = obj.picUrl;
+                document.querySelector(".mask").style.backgroundImage = 'url("' + obj.picUrl + '")';
+
+                document.querySelectorAll("ul.list li").forEach(function (element, index) {
+                    if (index == current) {
+                        element.classList.add("playing");
+                    } else {
+                        element.classList.remove("playing");
+                    }
+                });
+            }
+
+            // 列表播放
+            audio.onended = function () {
+                if (getStatus(pattern) == 'retweet') {
+                    current++;
+                    if (current > playlist.length - 1) {
+                        // 重新从0播放
+                        current = 0;
+                    }
+                } else if (getStatus(pattern) == 'random') {
+                    current = nextRandomSong(current);
+
+                }
+                changeSong(playlist[current]);
+            };
+
+            next.onclick = function () {
+                if (getStatus(pattern) == 'retweet') {
+                    current++;
+                    if (current > playlist.length - 1) {
+                        // 重新从0播放
+                        current = 0;
+                    }
+                } else if (getStatus(pattern) == 'random') {
+                    current = nextRandomSong(current);
+
+                }
+                changeSong(playlist[current]);
+            };
+
+            prev.onclick = function () {
+                if (getStatus(pattern) == 'retweet') {
+                    current--;
+                    if (current < 0) {
+                        current = playlist.length - 1;
+                    }
+                } else if (getStatus(pattern) == 'random') {
+                    current = prevRandomSong(current);
+
+                }
+                changeSong(playlist[current]);
+            }
+
+            // 音量进度条
+            soundProgress.querySelector('input').onchange = function () {
+                soundProgress.querySelector('.progress-active').style.width = this.value + '%';
+                soundProgress.querySelector('span').style.left = this.value - 1 + '%';
+                audio.volume = this.value / 100;
+            };
+
+            // 音量图标
+            volumeIcon.onclick = function () {
+                if (getStatus(volumeIcon) == 'up') {
+                    volumeIcon.classList.remove('fa-volume-up');
+                    volumeIcon.classList.add('fa-volume-off');
+                    tem_width = getComputedStyle(soundProgress.querySelector('.progress-active')).width;
+                    tem_left = getComputedStyle(soundProgress.querySelector('span')).left;
+                    tem_val = soundProgress.querySelector('input').value;
+                    tem_volume = audio.volume;
+
+                    // 音量为0
+                    soundProgress.querySelector('.progress-active').style.width = '0%';
+                    soundProgress.querySelector('span').style.left = '0%'
+                    soundProgress.querySelector('input').value = 0;
+                    audio.volume = 0;
+
+                } else if (getStatus(volumeIcon) == 'off') {
+                    volumeIcon.classList.remove('fa-volume-off');
+                    volumeIcon.classList.add('fa-volume-up');
+
+                    //恢复音量状态
+                    soundProgress.querySelector('.progress-active').style.width = tem_width;
+                    soundProgress.querySelector('span').style.left = tem_left;
+                    soundProgress.querySelector('input').value = tem_val;
+                    audio.volume = tem_volume;
+                }
+            }
+
+            // 模式
+            pattern.onclick = function () {
+                var first = 'retweet';
+                var second = 'random';
+                var cls;
+                this.classList.forEach(function (element, index) {
+                    if (element.indexOf('fa-') > -1) {
+                        var status = element.split('-')[1];
+                        status = status == first ? second : first;
+                        cls = 'fa-' + status;
+                        pattern.classList.remove(element);
+                    }
+                });
+                pattern.classList.add(cls);
+            };
+
+            list.querySelectorAll('li').forEach(function(element, index) {
+                element.onclick = function () {
+                    this.classList.add('playing');
+                    current = index;
+                    for (var i = 0; i < playlist.length; i++) {
+                        if (playlist[i].name == this.innerText) {
+                            changeSong(playlist[i]);
+                        }
+                    }
+                }
+            });
+
+            // 获取状态
+            function getStatus(Dom) {
+                var arr = [];
+                Dom.classList.forEach(function (element, index) {
+                    if (element.indexOf('fa-') > -1) {
+                        arr = element.split('-');
+                    }
+                });
+                return arr[arr.length - 1];
+            }
+
+            function nextRandomSong(index) {
+                var nextRandom = Math.floor(Math.random() * playlist.length);
+                if (index == playlist.length - 1) {
+                    return 0;
+                } else if (nextRandom > index && nextRandom <= playlist.length - 1) {
+                    return nextRandom;
+                } else if (nextRandom <= index) {
+                    return nextRandomSong(index);
+                }
+            };
+
+            function prevRandomSong(index) {
+                var nextRandom = Math.floor(Math.random() * playlist.length);
+                if (index == 0) {
+                    return playlist.length - 1;
+                } else if (nextRandom < index && nextRandom >= 0) {
+                    return nextRandom;
+                } else if (nextRandom >= index) {
+                    return prevRandomSong(index);
+                }
+            };
+        }
+    </script>
+</body>
+
+</html>

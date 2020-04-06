@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css3倾斜视差</title>
+    <style>
+        html{
+            height: 100%;
+        }
+
+        body{
+            display: flex;
+            height: 100%;
+            margin: 0;
+            perspective: 900px;
+            perspective-origin: 50% 50%;
+        }
+
+        .main{
+            width: 700px;
+            margin: auto;
+            padding: 20px;
+            transform-style: preserve-3d;
+            box-shadow: 0 0 12px 10px #ddd;
+            transition: all .4s;
+            transform: translateZ(-30px);
+        }
+
+        h1{
+            transform: translateZ(10px);
+        }
+
+        h3{
+            color: #eb285d;
+            transform: rotateZ(-5px);
+        }
+
+        .stage{
+            display: flex;
+        }
+        .card-l{
+            width: 200px;
+            height: 300px;
+            position: relative;
+            background-image: url('./img/3dr_monobg.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            transform: translateZ(15px);
+        }
+
+        .card-m{
+            width: 200px;
+            height: 300px;
+            position: relative;
+            margin: 0 20px;
+            background-image: url('./img/3dr_spirited.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            transform: translateZ(15px);
+        }
+
+        .card-r{
+            width: 200px;
+            height: 300px;
+            position: relative;
+            background-image: url('./img/3dr_howlbg.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            transform: translateZ(15px);
+        }
+
+        img{
+            display: block;
+            width: 100%;
+            height: 100%;
+            transform: translateZ(35px);
+        }
+
+        p{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            font-size: 26px;
+            color: white;
+            text-align: center;
+            margin-bottom: 8px;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h3>Movies</h3>
+        <h1>Popular</h1>
+        <div class="stage">
+            <div class="card-l">
+                <img src="./img/3dr_mono.png" alt="">
+                <p>Princess Mononoke</p>
+            </div>
+
+            <div class="card-m">
+                <img src="./img/3dr_chihiro.png" alt="">
+                <p>Spirited Away</p>
+            </div>
+
+            <div class="card-r">
+                <img src="./img/3dr_howlcastle.png" alt="">
+                <p>Howl's Moving Castle</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         var w = window.innerWidth;
+        var h = window.innerHeight;
+
+        document.body.onmousemove = function(event) {
+                var x = event.pageX - w / 2;
+                var y = event.pageY - h / 2;
+                this.style.perspectiveOrigin = (50 + x / (w / 2 / 20)) + "% " + (50 + (y / (h / 2 / 20))) + "%";
+        };
+    </script>
+</body>
+</html>

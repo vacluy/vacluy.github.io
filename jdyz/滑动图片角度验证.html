@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滑动图片角度验证</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            height: 100%;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .stage {
+            width: 200px;
+            margin: auto;
+        }
+
+        .img {
+            width: 100%;
+            height: 200px;
+            border-radius: 50%;
+            border: 1px solid #e4393c;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .img canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .status {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 80px;
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .status .icon {
+            display: none;
+            margin: auto;
+        }
+
+        .slidercontent {
+            width: 100%;
+            position: relative;
+            border: 1px solid #e2e2e2;
+            border-radius: 25px;
+            background-color: #f7f7f7;
+            z-index: 9999;
+        }
+
+        .slidercontent .slider {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #e2e2e2;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .slider.click {
+            border-color: #1a91ed;
+        }
+
+        .slider.click .mask {
+            background-color: #1a91ed;
+            color: #fff;
+        }
+
+        .slider.error {
+            border-color: #e4393c;
+            transition: all .3s;
+        }
+
+        .slider.error .mask {
+            background-color: #e4393c;
+            color: #fff;
+            transition: all .3s;
+        }
+
+        .slider.right {
+            border-color: limegreen;
+        }
+
+        .slider.right .mask {
+            background-color: limegreen;
+            color: #fff;
+        }
+
+        .slider .mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 38px;
+            height: 38px;
+            font-size: 28px;
+            border: 1px solid #e2e2e2;
+            border-radius: 50%;
+            background-color: #fff;
+            z-index: 1;
+        }
+
+        .slider .mask i {
+            text-align: center;
+            position: relative;
+            left: 7px;
+        }
+
+        .slidercontent .content {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stage">
+        <div class="img">
+            <canvas id="mycanvas" width="200" height="200"></canvas>
+            <img id="source" style="display: none;" src="https://i.picsum.photos/id/21/200/200.jpg" alt="">
+            <div class="status">
+                <i class="fa fa-check icon"></i>
+            </div>
+        </div>
+        <div class="slidercontent">
+            <div class="slider">
+                <div class="mask">
+                    <i class="fa fa-angle-double-right"></i>
+                </div>
+            </div>
+            <div class="content">滑动将图片转正</div>
+        </div>
+    </div>
+    <script>
+        /** @type {HTMLCanvasElement} */
+        var sliderContent = document.querySelector('.slidercontent');
+        var slider = document.querySelector('.slider');
+        var mask = document.querySelector('.mask');
+        var maskIcon = mask.querySelector('i');
+        var text = document.querySelector('.content')
+        var source = document.querySelector('#source');
+        var canvas = document.querySelector('#mycanvas');
+        var context = canvas.getContext('2d');
+
+
+        context.translate(100, 100);
+
+        var randomDegree = 0;
+
+        var prevStatus = 0;
+        var change = 0;
+        var final = 0;
+
+        //初始化页面
+        init();
+
+        mask.onmousedown = function (e) {
+            if (e.which != 1) {
+                return;
+            }
+            slider.classList.add('click');
+
+            sliderContent.onmousemove = function (event) {
+                var x = event.pageX - this.offsetLeft - e.offsetX;
+
+                var min = 0;
+                var max = parseInt(getComputedStyle(sliderContent).width) - parseInt(getComputedStyle(mask).width);
+
+                x = x < min ? min : x < max ? x : max;
+
+                mask.style.left = x + 'px';
+                slider.style.width = x + parseInt(getComputedStyle(mask).width) + 'px';
+
+                change = (x * 2.5) - prevStatus;
+
+                context.rotate(Math.PI / 180 * change);
+                context.drawImage(source, -100, -100);
+
+                prevStatus = x * 2.5;
+                final += change;
+            }
+        }
+
+        mask.onmouseup = function () {
+            sliderContent.onmousemove = null;
+
+            if (check(randomDegree, final)) {
+                rightStatus();
+                alert('验证成功');
+            } else {
+                errorStatus();
+            }
+        }
+
+        // 获取在(min, max)范围内的随机数
+        function getRandom(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        // 验证函数
+        function check(random, final) {
+            if (random + final <= 370 && random + final >= 350) {
+                return true;
+            }
+
+            return false;
+        }
+
+        // 初始化函数
+        function init() {
+            randomDegree = 0;
+            prevStatus = 0;
+            change = 0;
+            final = 0;
+
+            source.src = 'https://i.picsum.photos/id/' + getRandom(0, 360) + '/200/200.jpg';
+            source.onload = function () {
+                randomDegree = getRandom(20, 340);
+
+                context.arc(0, 0, 100, 0, 2 * Math.PI);
+                context.clip();
+
+                context.rotate(Math.PI / 180 * randomDegree);
+                context.drawImage(source, -100, -100);
+
+            }
+            mask.style.left = 0;
+            slider.style.width = '38px';
+            sliderContent.onmousemove = null;
+            slider.classList.remove('click');
+            slider.classList.remove('error');
+            slider.classList.remove('right');
+            maskIcon.classList.forEach(function (element) {
+                if (element.indexOf('fa-') > -1) {
+                    maskIcon.classList.remove(element);
+                    maskIcon.classList.add('fa-angle-double-right');
+                }
+            });
+        }
+
+        // 验证成功的状态函数
+        function rightStatus() {
+            slider.classList.remove('click');
+            slider.classList.add('right');
+            maskIcon.classList.forEach(function (element) {
+                if (element.indexOf('fa-') > -1) {
+                    maskIcon.classList.remove(element);
+                    maskIcon.classList.add('fa-check');
+                    text.style.display = 'none';
+                }
+            });
+        }
+
+        // 验证失败的状态函数
+        function errorStatus() {
+            slider.classList.remove('click');
+            slider.classList.add('error');
+            sliderContent.style.animation = 'myanimate .6s';
+            maskIcon.classList.forEach(function (element) {
+                if (element.indexOf('fa-') > -1) {
+                    maskIcon.classList.remove(element);
+                    maskIcon.classList.add('fa-times');
+                    text.style.display = 'block';
+                }
+            });
+            setTimeout(init, 600);
+            // init();
+        }
+
+        // 默认状态函数
+        function normalStatus() {
+            slider.classList.remove('click');
+            slider.classList.remove('error');
+            slider.classList.remove('right');
+            maskIcon.classList.forEach(function (element) {
+                if (element.indexOf('fa-') > -1) {
+                    maskIcon.classList.remove(element);
+                    maskIcon.classList.add('fa-angle-double-right');
+                    text.style.display = 'block';
+                }
+            });
+        }
+    </script>
+</body>

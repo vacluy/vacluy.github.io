@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css表单优化</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .main {
+            background-color: #ddd;
+            padding: 50px 0 40px 50px;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .main>form>p {
+            margin: 10px 0;
+        }
+
+        .main>form>div {
+            padding-bottom: 40px;
+        }
+
+        .icon-radio input,.icon-checkbox input{
+            display: none;
+        }
+
+        .icon-radio input + span::before{
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 23px;
+            height: 23px;
+            background-image: url('./img/icon-green.png');
+            background-repeat: no-repeat;
+            background-position: 0 -50px;
+        }
+
+        .icon-radio input:hover + span::before{
+            background-position-x: -50px;
+        }
+
+        .icon-radio input:checked + span::before{
+            background-position-x: -100px;
+        }
+        .icon-radio input:checked + span:hover:before{
+            background-position-x: -150px;
+        }
+
+        .icon-checkbox input + span::before{
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 23px;
+            height: 23px;
+            margin-right: 5px;
+            background-image: url('./img/icon-green.png');
+            background-repeat: no-repeat;
+            background-position: 0 0;
+        }
+
+        .icon-checkbox input:hover + span::before{
+            background-position-x: -50px;
+        }
+
+        .icon-checkbox input:checked + span::before{
+            background-position-x: -100px;
+        }
+        .icon-checkbox input:checked + span:hover:before{
+            background-position-x: -150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <form action="#" method="GET">
+            <p>单选按钮美化:</p>
+            <div class="radioBtn">
+                <span>性别:</span>
+                <label class="icon-radio">
+                    <input type="radio" name="sex" value="nan" checked>
+                    <span class="radio-text">男</span>
+                </label>
+
+                <label class="icon-radio">
+                    <input type="radio" name="sex" value="nv">
+                    <span class="radio-text">女</span>
+                </label>
+            </div>
+
+            <p>多选按钮美化:</p>
+            <div class="checkBoxBtn">
+                <span>兴趣爱好:</span>
+                <label class="icon-checkbox">
+                    <input type="checkbox" name="hobby" value="chat" checked>
+                    <span class="checkbox-text">交友聊天</span>
+                </label>
+                <label class="icon-checkbox">
+                    <input type="checkbox" name="hobby" value="game">
+                    <span class="checkbox-text">网络游戏</span>
+                </label>
+                <label class="icon-checkbox">
+                    <input type="checkbox" name="hobby" value="code">
+                    <span class="checkbox-text">程序编码</span>
+                </label>
+                <label class="icon-checkbox">
+                    <input type="checkbox" name="hobby" value="shopping">
+                    <span class="checkbox-text">网上购物</span>
+                </label>
+            </div>
+            <div class="button">
+                <input type="submit" value="提交">
+            </div>
+        </form>
+
+    </div>
+
+</body>
+
+</html>
