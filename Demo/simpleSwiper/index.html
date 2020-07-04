@@ -5,7 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
         <script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
-        <link rel="stylesheet" href="./css/basic.css">
+        <link
+            rel="stylesheet"
+            href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+        <link rel="stylesheet" href="./css/basic.css" />
         <script src="./js/banner.js"></script>
         <style>
             .banner {
@@ -38,8 +42,8 @@
                 </div>
             </div>
             <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev fa"></div>
+            <div class="swiper-button-next fa"></div>
         </div>
 
         <div class="swiper-container news">
@@ -55,13 +59,13 @@
                 </div>
             </div>
             <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev fa"></div>
+            <div class="swiper-button-next fa"></div>
         </div>
 
         <script>
-            var s1 = new SimpleSwiper('.banner',{autoPlay:true});
-            var s2 = new SimpleSwiper('.news')
+            var s1 = new SimpleSwiper(".banner", { autoPlay: true });
+            var s2 = new SimpleSwiper(".news");
         </script>
     </body>
 </html>
